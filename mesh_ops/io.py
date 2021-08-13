@@ -39,7 +39,7 @@ def convert_multi(search_string: str, out_format: str):
     for fname in files:
         change_mesh_format(fname, out_format)
 
-def array_mesh(triangle_array: np.array):
+def array_to_mesh(triangle_array: np.array):
     assert triangle_array.shape[1] == 9
     all_triangles = np.reshape(triangle_array, (int(triangle_array.shape[0] * 3), int(triangle_array.shape[1] / 3)))
 
