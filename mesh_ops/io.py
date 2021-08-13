@@ -38,3 +38,18 @@ def convert_multi(search_string: str, out_format: str):
     assert len(files) > 0
     for fname in files:
         change_mesh_format(fname, out_format)
+
+def array_mesh(triangle_array: np.array):
+    assert triangle_array.shape[1] == 9
+    all_triangles = np.reshape(triangle_array, (int(triangle_array.shape[0] * 3), int(triangle_array.shape[1] / 3)))
+
+    vertices = np.unique(all_triangles, axis=0)
+    vertex_dic = {tuple(vertex): i for i, vertex in enumerate(vertices)}
+    tri_list = []
+
+    for tri in triangle_array:
+        tri_list.append([vertex_dic[tuple(vi)] for vi in tri.reshape((3, 3))])
+
+    mesh = meshio.Mesh(points=vertices, cells=[("triangle", tri_list)])
+
+    return mesh
